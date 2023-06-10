@@ -1,0 +1,25 @@
+CC = gcc
+DEBUG = -g
+CFLAGS = -Wall -c $(DEBUG)
+LFLAGS = -Wall -pthread $(DEBUG)
+
+client : main.o sender_handler.o receiver_handler.o message.o properties.o
+	$(CC) $(LFLAGS) main.o sender_handler.o receiver_handler.o message.o properties.o -o client
+
+main.o : main.c main.h
+	$(CC) $(CFLAGS) main.c
+
+message.o : message.c message.h
+	$(CC) $(CFLAGS) message.c
+
+receiver_handler.o : receiver_handler.c receiver_handler.h
+	$(CC) $(CFLAGS) receiver_handler.c
+
+sender_handler.o : sender_handler.c sender_handler.h message.h
+	$(CC) $(CFLAGS) sender_handler.c
+
+properties.o : properties.c properties.h
+	$(CC) $(CFLAGS) properties.c
+
+clean:
+	 \rm *.o client
